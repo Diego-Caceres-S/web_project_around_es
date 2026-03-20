@@ -54,11 +54,44 @@ const imagePopup = document.querySelector("#image-popup");
 const popupImage = imagePopup.querySelector(".popup__image");
 const popupCaption = imagePopup.querySelector(".popup__caption");
 const popupImageClose = imagePopup.querySelector(".popup__close");
+const nameError = modalEditProfile.querySelector(".name-input-error");
+const descriptionError = modalEditProfile.querySelector(
+  ".description-input-error",
+);
 
-function getCardElement(
-  name = "Sin título",
-  link = "./images/placeholder.jpg",
-) {
+const inputs = [nameInput, descriptionInput];
+const buttonSubmitEditProfile =
+  modalEditProfile.querySelector(".popup__button");
+
+function checkInputValidity(inputElement, errorElement) {
+  if (!inputElement.validity.valid) {
+    errorElement.textContent = inputElement.validationMessage;
+  } else {
+    errorElement.textContent = "";
+  }
+}
+
+function toggleButtonState() {
+  const isFormValid = inputs.every((input) => input.validity.valid);
+  buttonSubmitEditProfile.disabled = !isFormValid;
+  if (isFormValid) {
+    buttonSubmitEditProfile.classList.remove("popup__button_disabled");
+  } else {
+    buttonSubmitEditProfile.classList.add("popup__button_disabled");
+  }
+}
+
+nameInput.addEventListener("input", function () {
+  checkInputValidity(nameInput, nameError);
+  toggleButtonState();
+});
+
+descriptionInput.addEventListener("input", function () {
+  checkInputValidity(descriptionInput, descriptionError);
+  toggleButtonState();
+});
+
+function getCardElement(name, link) {
   const cardElement = templateCard.cloneNode(true).firstElementChild;
   const cardTitle = cardElement.querySelector(".card__title");
   cardTitle.textContent = name;
@@ -72,10 +105,13 @@ function getCardElement(
     popupImage.alt = name;
     openModal(imagePopup);
   });
+
   const cardLikeButton = cardElement.querySelector(".card__like-button");
+
   cardLikeButton.addEventListener("click", function () {
     cardLikeButton.classList.toggle("card__like-button_is-active");
   });
+
   cardElement
     .querySelector(".card__delete-button")
     .addEventListener("click", function () {
@@ -109,6 +145,9 @@ function fillProfileForm() {
 
 function handleOpenEditModal() {
   fillProfileForm();
+  checkInputValidity(nameInput, nameError);
+  checkInputValidity(descriptionInput, descriptionError);
+  toggleButtonState();
   openModal(modalEditProfile);
 }
 
@@ -133,8 +172,8 @@ popupImageClose.addEventListener("click", function () {
   closeModal(imagePopup);
 });
 
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
+function handleProfileFormSubmit(x1) {
+  x1.preventDefault();
   titleProfile.textContent = nameInput.value;
   descriptionProfile.textContent = descriptionInput.value;
 }
@@ -152,6 +191,11 @@ formEditProfile.addEventListener("submit", function (evt) {
 });
 
 formAddCard.addEventListener("submit", function (evt) {
+  handleCardFormSubmit(evt);
+  closeModal(modalAddCard);
+});
+
+formAddCard.addEventListener("submit", (evt) => {
   handleCardFormSubmit(evt);
   closeModal(modalAddCard);
 });
