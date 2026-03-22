@@ -15,6 +15,8 @@ Around The U.S. es una aplicación web interactiva que permite a los usuarios cr
 - **Vista ampliada**: Modal para ver imágenes en tamaño completo
 - **Interfaz responsive**: Adaptable a diferentes tamaños de pantalla
 - **Generación dinámica**: Las tarjetas se crean dinámicamente usando templates HTML
+- **Validación de formularios**: Validación en tiempo real de campos obligatorios con mensajes de error
+- **Cierre de modales mejorado**: Posibilidad de cerrar ventanas emergentes con la tecla Esc o haciendo clic en el overlay
 
 ## Tecnologías utilizadas
 
