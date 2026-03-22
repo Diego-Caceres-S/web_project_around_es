@@ -58,8 +58,12 @@ const nameError = modalEditProfile.querySelector(".name-input-error");
 const descriptionError = modalEditProfile.querySelector(
   ".description-input-error",
 );
+const namePlaceError = modalAddCard.querySelector(".name-place-input-error");
+const urlPlaceError = modalAddCard.querySelector(".url-place-input-error");
 
-const inputs = [nameInput, descriptionInput];
+const inputsAdd = [cardNameInput, cardLinkInput];
+
+const inputsEdit = [nameInput, descriptionInput];
 const buttonSubmitEditProfile =
   modalEditProfile.querySelector(".popup__button");
 
@@ -71,8 +75,17 @@ function checkInputValidity(inputElement, errorElement) {
   }
 }
 
+function toggleButtonStateAdd() {
+  const isFormValid = inputsAdd.every((input) => input.validity.valid);
+  buttonSubmitAddCard.disabled = !isFormValid;
+  if (isFormValid) {
+    buttonSubmitAddCard.classList.remove("popup__button_disabled");
+  } else {
+    buttonSubmitAddCard.classList.add("popup__button_disabled");
+  }
+}
 function toggleButtonState() {
-  const isFormValid = inputs.every((input) => input.validity.valid);
+  const isFormValid = inputsEdit.every((input) => input.validity.valid);
   buttonSubmitEditProfile.disabled = !isFormValid;
   if (isFormValid) {
     buttonSubmitEditProfile.classList.remove("popup__button_disabled");
@@ -80,16 +93,6 @@ function toggleButtonState() {
     buttonSubmitEditProfile.classList.add("popup__button_disabled");
   }
 }
-
-nameInput.addEventListener("input", function () {
-  checkInputValidity(nameInput, nameError);
-  toggleButtonState();
-});
-
-descriptionInput.addEventListener("input", function () {
-  checkInputValidity(descriptionInput, descriptionError);
-  toggleButtonState();
-});
 
 function getCardElement(name, link) {
   const cardElement = templateCard.cloneNode(true).firstElementChild;
@@ -132,6 +135,11 @@ initialCards.forEach(function (element) {
 
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
+  document.addEventListener("keydown", function (evt) {
+    if (evt.key === "Escape") {
+      closeModal(modal);
+    }
+  });
 }
 
 function closeModal(modal) {
@@ -150,6 +158,39 @@ function handleOpenEditModal() {
   toggleButtonState();
   openModal(modalEditProfile);
 }
+
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+  titleProfile.textContent = nameInput.value;
+  descriptionProfile.textContent = descriptionInput.value;
+}
+
+function handleCardFormSubmit(evt) {
+  evt.preventDefault();
+  const name = cardNameInput.value;
+  const link = cardLinkInput.value;
+  renderCard(name, link, listCard);
+}
+
+nameInput.addEventListener("input", function () {
+  checkInputValidity(nameInput, nameError);
+  toggleButtonState();
+});
+
+descriptionInput.addEventListener("input", function () {
+  checkInputValidity(descriptionInput, descriptionError);
+  toggleButtonState();
+});
+
+cardNameInput.addEventListener("input", function () {
+  checkInputValidity(cardNameInput, namePlaceError);
+  toggleButtonStateAdd();
+});
+
+cardLinkInput.addEventListener("input", function () {
+  checkInputValidity(cardLinkInput, urlPlaceError);
+  toggleButtonStateAdd();
+});
 
 buttonAddOpen.addEventListener("click", function () {
   openModal(modalAddCard);
@@ -172,19 +213,6 @@ popupImageClose.addEventListener("click", function () {
   closeModal(imagePopup);
 });
 
-function handleProfileFormSubmit(x1) {
-  x1.preventDefault();
-  titleProfile.textContent = nameInput.value;
-  descriptionProfile.textContent = descriptionInput.value;
-}
-
-function handleCardFormSubmit(evt) {
-  evt.preventDefault();
-  const name = cardNameInput.value;
-  const link = cardLinkInput.value;
-  renderCard(name, link, listCard);
-}
-
 formEditProfile.addEventListener("submit", function (evt) {
   handleProfileFormSubmit(evt);
   closeModal(modalEditProfile);
@@ -195,7 +223,8 @@ formAddCard.addEventListener("submit", function (evt) {
   closeModal(modalAddCard);
 });
 
-formAddCard.addEventListener("submit", (evt) => {
-  handleCardFormSubmit(evt);
-  closeModal(modalAddCard);
+imagePopup.addEventListener("click", function (evt) {
+  if (evt.target === imagePopup) {
+    closeModal(imagePopup);
+  }
 });
