@@ -54,6 +54,9 @@ WEB_PROJECT_AROUND/
 │   └── index.css
 ├── scripts/
 │   └── index.js
+│   └── FormValidator.js
+│   └── Card.js
+│   └── utils.js
 └── vendor/
     ├── fonts/
     │   ├── Inter-Black.woff2
