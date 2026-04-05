@@ -41,6 +41,7 @@
       <footer class="footer page__section">
         <p class="footer__copyright">© 2025 Around The U.S.</p>
       </footer>
+
       <div class="popup" id="edit-popup">
         <div class="popup__content">
           <button
@@ -51,6 +52,7 @@
           <h3 class="popup__title">Editar perfil</h3>
           <form class="popup__form" id="edit-profile-form">
             <input
+              id="name"
               class="popup__input popup__input_type_name"
               name="name"
               placeholder="Nombre"
@@ -59,8 +61,9 @@
               minlength="2"
               maxlength="40"
             />
-            <span class="popup__input-error name-input-error"></span>
+            <span class="popup__input-error" id="name-error"></span>
             <input
+              id="description"
               class="popup__input popup__input_type_description"
               name="description"
               placeholder="Acerca de mí"
@@ -69,11 +72,12 @@
               minlength="2"
               maxlength="200"
             />
-            <span class="popup__input-error description-input-error"></span>
+            <span class="popup__input-error" id="description-error"></span>
             <button class="button popup__button" type="submit">Guardar</button>
           </form>
         </div>
       </div>
+
       <div class="popup" id="new-card-popup">
         <div class="popup__content">
           <button
@@ -84,29 +88,30 @@
           <h3 class="popup__title">Nuevo lugar</h3>
           <form class="popup__form" id="new-card-form">
             <input
+              id="place-name"
               class="popup__input popup__input_type_card-name"
               name="place-name"
               placeholder="Título"
               required
               type="text"
-              requerid
               minlength="2"
               maxlength="200"
             />
-            <span class="popup__input-error name-place-input-error"></span>
+            <span class="popup__input-error" id="place-name-error"></span>
             <input
+              id="link"
               class="popup__input popup__input_type_url"
               name="link"
               placeholder="Enlace a la imagen"
               required
               type="url"
-              requerid
             />
-            <span class="popup__input-error url-place-input-error"></span>
+            <span class="popup__input-error" id="link-error"></span>
             <button class="button popup__button" type="submit">Crear</button>
           </form>
         </div>
       </div>
+
       <div class="popup" id="image-popup">
         <div class="popup__content popup__content_content_image">
           <button
@@ -138,6 +143,7 @@
         </div>
       </li>
     </template>
-    <script src="scripts/index.js"></script>
+
+    <script type="module" src="scripts/index.js"></script>
   </body>
 </html>
