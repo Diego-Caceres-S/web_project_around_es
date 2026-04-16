@@ -1,4 +1,3 @@
-// Función con nombre para poder agregarla Y eliminarla correctamente
 function handleEscapeKey(evt) {
   if (evt.key === "Escape") {
     const openedModal = document.querySelector(".popup_is-opened");

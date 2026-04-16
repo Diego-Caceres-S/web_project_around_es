@@ -1,9 +1,9 @@
 export class Card {
-  constructor(data, templateCard, handleImageClick) {
+  constructor(data, templateCard, popup) {
     this._name = data.name;
     this._link = data.link;
     this._templateCard = templateCard;
-    this._handleImageClick = handleImageClick;
+    this._popup = popup;
   }
 
   // Metodo para clonar la plantilla
@@ -27,6 +27,11 @@ export class Card {
     this._element.remove();
   }
 
+  // Metodo para manejar el clic en la tarjeta
+  _handleCardClick() {
+    this._popup.open(this._name, this._link);
+  }
+
   // Metodo agrega todos los detectores de eventos
   _setEventListeners() {
     this._element
@@ -42,7 +47,7 @@ export class Card {
     this._element
       .querySelector(".card__image")
       .addEventListener("click", () => {
-        this._handleImageClick(this._name, this._link);
+        this._handleCardClick();
       });
   }
 

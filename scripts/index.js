@@ -1,8 +1,9 @@
-import { Card } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
 import { openModal, closeModal } from "./utils.js";
+import { Card } from "./Card.js";
+import { PopupWithImage } from "./PopupWithImage.js";
+import { PopupWithForm } from "./PopupWithForm.js";
 
-// Configuración de validación (se reutiliza para ambos formularios)
 const settings = {
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__button",
@@ -60,10 +61,8 @@ const formAddCard = modalAddCard.querySelector("#new-card-form");
 
 const listCard = document.querySelector(".cards__list");
 
-const imagePopup = document.querySelector("#image-popup");
-const popupImage = imagePopup.querySelector(".popup__image");
-const popupCaption = imagePopup.querySelector(".popup__caption");
-const popupImageClose = imagePopup.querySelector(".popup__close");
+const popupConImagen = new PopupWithImage("#image-popup");
+popupConImagen.setEventListeners();
 
 //Instancias de FormValidator
 const editProfileValidator = new FormValidator(settings, formEditProfile);
@@ -71,15 +70,8 @@ const addCardValidator = new FormValidator(settings, formAddCard);
 editProfileValidator.setEventListeners();
 addCardValidator.setEventListeners();
 
-function handleImageClick(name, link) {
-  popupImage.src = link;
-  popupImage.alt = name;
-  popupCaption.textContent = name;
-  openModal(imagePopup);
-}
-
 function renderCard(cardData, container) {
-  const card = new Card(cardData, "#card-template", handleImageClick);
+  const card = new Card(cardData, "#card-template", popupConImagen);
   container.prepend(card.generateCard());
 }
 
@@ -122,13 +114,23 @@ buttonAddOpen.addEventListener("click", () => {
 
 buttonAddClose.addEventListener("click", () => closeModal(modalAddCard));
 
-popupImageClose.addEventListener("click", () => closeModal(imagePopup));
-
 formEditProfile.addEventListener("submit", handleProfileFormSubmit);
 formAddCard.addEventListener("submit", handleCardFormSubmit);
 
-imagePopup.addEventListener("click", (evt) => {
-  if (evt.target === imagePopup) {
-    closeModal(imagePopup);
-  }
+const popupEditProfile = new PopupWithForm("#edit-popup", {
+  handleFormSubmit: (inputValues) => {
+    titleProfile.textContent = inputValues.name;
+    descriptionProfile.textContent = inputValues.description;
+    popupEditProfile.close();
+  },
 });
+
+popupEditProfile.setEventListeners();
+
+const popupAddCard = new PopupWithForm("#new-card-popup", {
+  handleFormSubmit: (inputValues) => {
+    renderCard(inputValues, listCard);
+    popupAddCard.close();
+  },
+});
+popupAddCard.setEventListeners();
