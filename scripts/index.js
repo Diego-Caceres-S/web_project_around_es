@@ -82,22 +82,6 @@ function fillProfileForm() {
   descriptionInput.value = descriptionProfile.textContent;
 }
 
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  titleProfile.textContent = nameInput.value;
-  descriptionProfile.textContent = descriptionInput.value;
-  closeModal(modalEditProfile);
-}
-
-function handleCardFormSubmit(evt) {
-  evt.preventDefault();
-  const name = cardNameInput.value;
-  const link = cardLinkInput.value;
-  renderCard({ name, link }, listCard);
-  formAddCard.reset();
-  closeModal(modalAddCard);
-}
-
 //Event listeners
 buttonEditOpen.addEventListener("click", () => {
   fillProfileForm();
@@ -113,9 +97,6 @@ buttonAddOpen.addEventListener("click", () => {
 });
 
 buttonAddClose.addEventListener("click", () => closeModal(modalAddCard));
-
-formEditProfile.addEventListener("submit", handleProfileFormSubmit);
-formAddCard.addEventListener("submit", handleCardFormSubmit);
 
 const popupEditProfile = new PopupWithForm("#edit-popup", {
   handleFormSubmit: (inputValues) => {
