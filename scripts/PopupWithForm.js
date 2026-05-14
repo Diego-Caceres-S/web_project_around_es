@@ -5,6 +5,8 @@ export class PopupWithForm extends Popup {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit;
     this._form = this._popup.querySelector(".popup__form");
+    this._submitButton = this._form.querySelector(".popup__button");
+    this._submitButtonText = this._submitButton.textContent;
   }
 
   _getInputValues() {
@@ -19,9 +21,19 @@ export class PopupWithForm extends Popup {
         inputValues.name = input.value;
       } else if (input.classList.contains("popup__input_type_url")) {
         inputValues.link = input.value;
+      } else if (input.classList.contains("popup__input_type_avatar")) {
+        inputValues.avatar = input.value;
       }
     });
     return inputValues;
+  }
+
+  renderIsLoading(isLoading) {
+    if (isLoading) {
+      this._submitButton.textContent = "Guardando..";
+    } else {
+      this._submitButton.textContent = this._submitButtonText;
+    }
   }
 
   setEventListeners() {

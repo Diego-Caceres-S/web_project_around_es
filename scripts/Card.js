@@ -1,12 +1,45 @@
 export class Card {
-  constructor(data, templateCard, popup) {
+  constructor(
+    data,
+    templateCard,
+    popupImagen,
+    handleDeleteClick,
+    handleLikeClick,
+    currentUserId,
+  ) {
     this._name = data.name;
     this._link = data.link;
+    this._id = data._id;
+    this._isLiked = data.isLiked;
+    this._owner = data.owner;
+    this._currentUserId = currentUserId;
     this._templateCard = templateCard;
-    this._popup = popup;
+    this._popup = popupImagen;
+    this._handleDeleteClick = handleDeleteClick;
+    this._handleLikeClick = handleLikeClick;
   }
 
-  // Metodo para clonar la plantilla
+  generateCard() {
+    this._element = this._getTemplate();
+    this._element.querySelector(".card__image").alt = this._name;
+    this._element.querySelector(".card__image").src = this._link;
+    this._element.querySelector(".card__title").textContent = this._name;
+
+    if (this._isLiked) {
+      this._element
+        .querySelector(".card__like-button")
+        .classList.add("card__like-button_is-active");
+    }
+
+    if (this._owner != this._currentUserId) {
+      this._element.querySelector(".card__delete-button").style.display =
+        "none";
+    }
+
+    this._setEventListeners();
+    return this._element;
+  }
+
   _getTemplate() {
     const cardElement = document
       .querySelector(this._templateCard)
@@ -15,34 +48,16 @@ export class Card {
     return cardElement;
   }
 
-  // Metodo para cambiar de estado el boton de "Me Gusta"
-  _handleLikeClick() {
-    this._element
-      .querySelector(".card__like-button")
-      .classList.toggle("card__like-button_is-active");
-  }
-
-  // Metodo para eliminar una card
-  _handleRemoveCard() {
-    this._element.remove();
-  }
-
-  // Metodo para manejar el clic en la tarjeta
-  _handleCardClick() {
-    this._popup.open(this._name, this._link);
-  }
-
-  // Metodo agrega todos los detectores de eventos
   _setEventListeners() {
     this._element
       .querySelector(".card__like-button")
       .addEventListener("click", () => {
-        this._handleLikeClick();
+        this._handleLikeClick(this._id, this._isLiked, this);
       });
     this._element
       .querySelector(".card__delete-button")
       .addEventListener("click", () => {
-        this._handleRemoveCard();
+        this._handleDeleteClick(this._id, this);
       });
     this._element
       .querySelector(".card__image")
@@ -51,13 +66,18 @@ export class Card {
       });
   }
 
-  // Metodo que devuelve el elemento card para insertar en el DOM
-  generateCard() {
-    this._element = this._getTemplate();
-    this._element.querySelector(".card__image").alt = this._name;
-    this._element.querySelector(".card__image").src = this._link;
-    this._element.querySelector(".card__title").textContent = this._name;
-    this._setEventListeners();
-    return this._element;
+  toggleLike(isLiked) {
+    this._isLiked = isLiked;
+    const likeButton = this._element.querySelector(".card__like-button");
+
+    likeButton.classList.toggle("card__like-button_is-active", isLiked);
+  }
+
+  removeCard() {
+    this._element.remove();
+  }
+
+  _handleCardClick() {
+    this._popup.open(this._name, this._link);
   }
 }
