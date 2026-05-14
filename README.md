@@ -57,6 +57,12 @@ WEB_PROJECT_AROUND/
 │   └── FormValidator.js
 │   └── Card.js
 │   └── utils.js
+│   └── Api.js
+│   └── PopupWithConfirmation.js
+│   └── PopupWithImage.js
+│   └── Section.js
+│   └── UserInfo.js
+│   └── PopWithForm.js
 └── vendor/
     ├── fonts/
     │   ├── Inter-Black.woff2
