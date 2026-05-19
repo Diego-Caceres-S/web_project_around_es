@@ -91,4 +91,4 @@ WEB_PROJECT_AROUND/
 
 ## Enlace al proyecto
 
-[Ver proyecto en GitHub Pages](https://github.com/Diego-Caceres-S/web_project_around_es)
+[Ver proyecto en GitHub Pages](https://diego-caceres-s.github.io/web_project_around_es/)
